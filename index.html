@@ -148,6 +148,17 @@
       padding: 8px;
       text-align: left;
     }
+    .preview-header-banner {
+      background: #e8f0fe;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      display: none;
+    }
+    .preview-mode .preview-header-banner {
+      display: block;
+    }
     @media print {
       header, .timer-bar, .no-print {
         display: none !important;
@@ -183,13 +194,17 @@
     <p id="login-error" style="color: red; margin-top: 10px;"></p>
   </div>
 
-  <!-- Test Container -->
+  <!-- Test & Preview Container -->
   <div id="test-section" class="hidden">
-    <div class="timer-bar">
+    <div class="timer-bar no-print">
       <span id="user-display"></span>
       <span>Time Remaining: <span id="timer">90:00</span></span>
     </div>
     <div class="container">
+      <div id="preview-banner" class="preview-header-banner">
+        Student Name: <span id="preview-student-name"></span> | Mobile: <span id="preview-student-phone"></span>
+        <button onclick="window.print()" style="margin-top: 10px; background-color: #28a745; width: auto; padding: 8px 16px;">Download / Print Preview</button>
+      </div>
       <form id="quiz-form">
         <div id="questions-container"></div>
         <button type="button" onclick="submitExam()" class="no-print" style="margin-top: 20px;">Submit Test</button>
@@ -197,7 +212,7 @@
     </div>
   </div>
 
-  <!-- Result Summary & Preview Section -->
+  <!-- Result Summary Section -->
   <div id="result-section" class="hidden">
     <div class="result-card">
       <h2>Test Result Summary</h2>
@@ -210,8 +225,7 @@
         <tr><th>Unattempted</th><td id="res-unattempted"></td></tr>
         <tr><th>Final Score</th><td id="res-score" style="font-size: 1.2rem; font-weight: bold;"></td></tr>
       </table>
-      <button onclick="enablePreview()" class="no-print">Preview Answers</button>
-      <button onclick="window.print()" class="no-print" style="background-color: #28a745;">Download / Print Preview</button>
+      <button onclick="enablePreview()" class="no-print">Preview Answers & Download</button>
     </div>
   </div>
 
@@ -328,7 +342,7 @@
 
     async function startExam() {
       const phone = document.getElementById("student-phone").value.trim();
-      const name = document.getElementById("student-name").value.trim() || "Anonymous Student";
+      const name = document.getElementById("student-name").value.trim() || "Student";
       const errorEl = document.getElementById("login-error");
 
       if (!phone) {
@@ -343,10 +357,12 @@
         const result = await response.json();
 
         if (result.success) {
-          currentStudent = { name: result.studentName || name, phone };
+          currentStudent = { name, phone };
           document.getElementById("login-section").classList.add("hidden");
           document.getElementById("test-section").classList.remove("hidden");
-          document.getElementById("user-display").textContent = `Student: ${currentStudent.name} (${phone})`;
+          document.getElementById("user-display").textContent = `Student: ${name} (${phone})`;
+          document.getElementById("preview-student-name").textContent = name;
+          document.getElementById("preview-student-phone").textContent = phone;
           renderQuestions();
           startTimer();
         } else {
