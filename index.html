@@ -207,7 +207,7 @@
       </div>
       <form id="quiz-form">
         <div id="questions-container"></div>
-        <button type="button" onclick="submitExam()" class="no-print" style="margin-top: 20px;">Submit Test</button>
+        <button type="button" id="submit-btn" onclick="submitExam()" class="no-print" style="margin-top: 20px;">Submit Test</button>
       </form>
     </div>
   </div>
@@ -231,7 +231,7 @@
 
   <script>
     // Configuration
-    const APP_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby4ue83jiUv74-Qu4OBfOYh4wSIDMOgxpe2u8MVpcjJt62I429yzzMOpeFXtzpe_uPo/exec"; // Replace with your Web App URL
+    const APP_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"; // Replace with your Web App URL
 
     const questions = [
       { id: 1, q: "Choose the synonym of “Parsimonious”.", options: ["A) Generous", "B) Miserly", "C) Extravagant", "D) Benevolent"], ans: "B" },
@@ -327,13 +327,13 @@
       { id: 91, q: "দুটি সংখ্যার অনুপাত 5 : 7 এবং তাদের গ.সা.গু 12 হলে ল.সা.গু কত?", options: ["A) 360", "B) 420", "C) 480", "D) 540"], ans: "B" },
       { id: 92, q: "একটি সংখ্যার 75% = 96 হলে সংখ্যাটি কত?", options: ["A) 124", "B) 126", "C) 128", "D) 132"], ans: "C" },
       { id: 93, q: "একটি গাড়ি মোট পথের প্রথম অর্ধেক 40 km/h এবং দ্বিতীয় অর্ধেক 60 km/h বেগে অতিক্রম করে। সমগ্র যাত্রার গড় গতিবেগ কত?", options: ["A) 45 km/h", "B) 48 km/h", "C) 50 km/h", "D) 52 km/h"], ans: "B" },
-      { id: 94, q: "4 অঙ্কের বৃহত্তম সংখ্যা 8 দ্বারা বিভাজ্য এবং 4 অঙ্কের ক্ষুদ্রতম সংখ্যা 9 দ্বারা বিভাজ্য হলে তাদের পার্থক্য কত?", options: ["A) 8994", "B) 8995", "C) 8996", "D) 8984"], ans: "A" },
+      { id: 94, q: "4 অঙ্কের বৃহত্তম সংখ্যা 8 দ্বারা বিভাজ্য এবং 4 অঙ্কের ক্ষুদ্রতম সংখ্যা 9 দ্বারা বিভাজ্য হলে তাদের পার্থক্য কত?", options: ["A) 8991", "B) 8992", "C) 8993", "D) 8984"], ans: "D" },
       { id: 95, q: "কোনো অর্থ সরল সুদে 5 বছরে 1.6 গুণ হয়। একই হারে কত বছরে অর্থটি 2.2 গুণ হবে?", options: ["A) 8 বছর", "B) 10 বছর", "C) 12 বছর", "D) 15 বছর"], ans: "B" },
       { id: 96, q: "10% বার্ষিক চক্রবৃদ্ধি সুদে 2 বছরে কোনো অর্থের পরিমাণ 14,520 টাকা হলে মূলধন কত?", options: ["A) 11,000 টাকা", "B) 12,000 টাকা", "C) 12,500 টাকা", "D) 13,000 টাকা"], ans: "B" },
       { id: 97, q: "8টি সংখ্যার গড় 25। একটি সংখ্যা বাদ দিলে অবশিষ্ট সংখ্যাগুলির গড় 24 হয়। বাদ দেওয়া সংখ্যাটি কত?", options: ["A) 30", "B) 33", "C) 32", "D) 35"], ans: "C" },
       { id: 98, q: "একটি ট্রেন 90 কিমি/ঘণ্টা বেগে চললে 250 মিটার দীর্ঘ প্ল্যাটফর্ম 20 সেকেন্ডে অতিক্রম করে। ট্রেনটির দৈর্ঘ্য কত?", options: ["A) 200 মিটার", "B) 250 মিটার", "C) 300 মিটার", "D) 350 মিটার"], ans: "B" },
       { id: 99, q: "A ও B-এর আয়ের অনুপাত 7 : 9 এবং ব্যয়ের অনুপাত 3 : 4। উভয়ের সঞ্চয় 2,000 টাকা করে হলে A-এর আয় কত?", options: ["A) 12,000 টাকা", "B) 14,000 টাকা", "C) 16,000 টাকা", "D) 18,000 টাকা"], ans: "B" },
-      { id: 100, q: "A, B ও C যথাক্রমে 6,000 টাকা 8 মাস, 8,000 টাকা 6 মাস এবং 10,000 টাকা 4 মাসের জন্য বিনিয়োগ করে। মোট লাভ 27,000 টাকা হলে C-এর লাভের অংশ কত?", options: ["A) 7,900 টাকা", "B) 7,940 টাকা", "C) 9,000 টাকা", "D) 7941.18 টাকা"], ans: "D" }
+      { id: 100, q: "A, B ও C যথাক্রমে 6,000 টাকা 8 মাস, 8,000 টাকা 6 মাস এবং 10,000 টাকা 4 মাসের জন্য বিনিয়োগ করে। মোট লাভ 27,000 টাকা হলে C-এর লাভের অংশ কত?", options: ["A) 7900 টাকা", "B) 7940 টাকা", "C) 10,000 টাকা", "D) 7941.18 টাকা"], ans: "D" }
     ];
 
     let currentStudent = { name: "", phone: "" };
@@ -461,6 +461,9 @@
       document.getElementById("result-section").classList.add("hidden");
       document.getElementById("test-section").classList.remove("hidden");
       document.body.classList.add("preview-mode");
+
+      // Hide the Submit Test button completely during preview/download
+      document.getElementById("submit-btn").style.display = "none";
 
       questions.forEach(q => {
         const selected = document.querySelector(`input[name="q_${q.id}"]:checked`);
